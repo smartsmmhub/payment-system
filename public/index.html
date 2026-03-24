@@ -1,0 +1,11 @@
+<h2>Pay via QR</h2>
+
+<img src="YOUR_QR_IMAGE" width="250"><br><br>
+
+<form action="/api/submit" method="POST" enctype="multipart/form-data">
+  <input name="username" placeholder="Username" required><br><br>
+  <input name="amount" placeholder="Amount" required><br><br>
+  <input name="txn" placeholder="Transaction ID" required><br><br>
+  <input type="file" name="screenshot" required><br><br>
+  <button type="submit">Submit</button>
+</form>
