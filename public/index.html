@@ -1,11 +1,111 @@
-<h2>Pay via QR</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Funds - Fonepay</title>
+</head>
 
-<img src="YOUR_QR_IMAGE" width="250"><br><br>
+<body style="font-family:Arial;max-width:520px;margin:auto;padding:20px;">
 
-<form action="/api/submit" method="POST" enctype="multipart/form-data">
-  <input name="username" placeholder="Username" required><br><br>
-  <input name="amount" placeholder="Amount" required><br><br>
-  <input name="txn" placeholder="Transaction ID" required><br><br>
-  <input type="file" name="screenshot" required><br><br>
-  <button type="submit">Submit</button>
-</form>
+  <h2 style="text-align:center;">Add Balance via Fonepay QR</h2>
+
+  <p style="text-align:center;color:#555;">
+    Scan QR and pay using any bank or wallet
+  </p>
+
+  <!-- QR CODE (FIXED) -->
+  <div style="text-align:center;margin:15px 0;">
+    <img 
+      src="https://raw.githubusercontent.com/smartsmmhub/payment-system/5344780d97bc61372c5cc2e84c737e1e8d40a765/assets/qr.png"
+      style="width:220px;border:1px solid #ccc;padding:5px;border-radius:10px;">
+  </div>
+
+  <hr>
+
+  <h3>Submit Payment</h3>
+
+  <!-- USERNAME -->
+  <label>Username</label>
+  <input
+    name="username"
+    id="username"
+    placeholder="Enter Username"
+    required
+    style="width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:5px;"
+  >
+
+  <!-- AMOUNT -->
+  <label>Amount</label>
+  <input
+    name="amount"
+    id="amount"
+    type="number"
+    placeholder="Enter Amount"
+    required
+    style="width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:5px;"
+  >
+
+  <!-- TXN ID -->
+  <label>Transaction ID</label>
+  <input
+    name="txn"
+    id="txn"
+    placeholder="Fonepay Transaction ID"
+    required
+    style="width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:5px;"
+  >
+
+  <!-- SCREENSHOT -->
+  <label>Payment Screenshot</label>
+  <input
+    type="file"
+    name="screenshot"
+    required
+    style="width:100%;padding:10px;margin:6px 0;"
+  >
+
+  <!-- BUTTON -->
+  <button
+    onclick="submitPayment()"
+    style="width:100%;padding:12px;background:#25D366;color:white;border:none;border-radius:5px;font-size:16px;margin-top:10px;">
+    Submit Payment
+  </button>
+
+  <p style="font-size:12px;color:#777;text-align:center;margin-top:10px;">
+    Payments stay <b>Pending</b> until verified by admin
+  </p>
+
+<script>
+/* AUTO USERNAME (OPTIONAL MEMORY) */
+document.getElementById("username").value =
+localStorage.getItem("panel_username") || "";
+
+/* SUBMIT FUNCTION */
+function submitPayment() {
+
+  let username = document.getElementById("username").value;
+  let amount = document.getElementById("amount").value;
+  let txn = document.getElementById("txn").value;
+
+  if (!username || !amount || !txn) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  let form = document.createElement("form");
+  form.method = "POST";
+  form.action = "/api/submit";
+  form.enctype = "multipart/form-data";
+
+  form.innerHTML = `
+    <input name="username" value="${username}">
+    <input name="amount" value="${amount}">
+    <input name="txn" value="${txn}">
+  `;
+
+  document.body.appendChild(form);
+  form.submit();
+}
+</script>
+
+</body>
+</html>
