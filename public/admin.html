@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel - Payments</title>
+</head>
+
+<body style="font-family:Arial;max-width:900px;margin:auto;padding:20px;">
+
+  <h2>Payment Admin Panel</h2>
+
+  <button onclick="loadPayments()">Refresh</button>
+
+  <table border="1" width="100%" cellpadding="8" style="margin-top:20px;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Amount</th>
+        <th>TXN</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="data"></tbody>
+  </table>
+
+<script>
+async function loadPayments() {
+  const res = await fetch("/api/payments");
+  const data = await res.json();
+
+  let html = "";
+
+  data.forEach(p => {
+    html += `
+      <tr>
+        <td>${p.id}</td>
+        <td>${p.username}</td>
+        <td>${p.amount}</td>
+        <td>${p.txn}</td>
+        <td>${p.status}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("data").innerHTML = html;
+}
+
+loadPayments();
+</script>
+
+</body>
+</html>
